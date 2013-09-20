@@ -1,0 +1,29 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html, body, #map {
+  height: 100%;
+}
+
+.bikeshare-control-slider {
+  clear: none;
+  height: 53px;
+  background: #fff;
+  padding: 0 9px;
+}
+
+#selected-time {
+  font-size: 23px;
+  font-weight: bold;
+  line-height: 53px;
+  width: 94px;
+  margin-right: 9px;
+  float: left;
+}
+
+#time-slider {
+  margin-top: 20px;
+}
