@@ -9,6 +9,65 @@ html, body, #map {
   height: 100%;
 }
 
+#overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  height: 100%;
+  background: rgba(0,0,0,.5);
+  z-index: 1000;
+  padding: 0 15px;
+}
+
+#splash {
+  margin: auto;
+  max-width: 420px;
+  height: 310px;
+  position: relative;
+  top: 50%;
+  margin-top: -180px;
+  color: #fff;
+  border-radius: 25px 30px;
+  padding: 30px;
+  background: #11169; /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(76,80,84,.95) 0%, rgba(59,62,66,.95) 36%, rgba(17,22,25,.95) 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  rgba(76,80,84,.95) 0%,rgba(59,62,66,.95) 36%,rgba(17,22,25,.95) 100%); /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(top,  rgba(76,80,84,.95) 0%,rgba(59,62,66,.95) 36%,rgba(17,22,25,.95) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(76,80,84,.95) 0%,rgba(59,62,66,.95) 36%,rgba(17,22,25,.95) 100%); /* W3C */
+  -moz-box-shadow:    2px 3px 5px rgba(0,0,0,.5);
+  -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.5);
+  box-shadow:         2px 3px 5px rgba(0,0,0,.5);
+}
+
+#splash .scroller {
+  height: 180px;
+  overflow: auto;
+}
+
+#splash .logo {
+  position: absolute;
+  left: -32px;
+  top: -55px;
+}
+
+#splash h1 {
+  margin: 0 0 23px 0;
+  text-align: center;
+}
+
+#splash button {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 44px;
+  background: #a72726;
+  color: white;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 23px;
+  border-radius: 7px;
+  margin: 23px 0 0 0;
+}
+
 div.error {
   position: absolute;
   top: 50%;
