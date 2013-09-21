@@ -26,6 +26,10 @@
 
   <div id="map"></div>
 
+  <button type="button" id="logo-button" class="overlay-toggle">
+    <img src="img/logo.png" alt="Bikeshare Odds" class="logo" width="65" height="70" />
+  </button>
+
   <div id="overlay">
     <div id="splash">
       <img src="img/logo.png" alt="" class="logo" />
@@ -33,8 +37,11 @@
       <div class="scroller">
         <p style="text-align: center;">How early must you get to the station to snag a bike?</p>
       </div>
-      <button>Get Started</button>
+      <button type="button" class="overlay-toggle">Get Started</button>
     </div>
+    <a href="https://github.com/cmgiven/bikeshare-odds">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
+    </a>
   </div>
 
 
@@ -43,6 +50,19 @@
   <script src="js/libs/leaflet/leaflet.js"></script>
 
   <script src="js/vis.js"></script>
+
+  <script>
+    $(function() {
+      function overlayToggle(e) {
+        e.stopPropagation();
+        $('#overlay').fadeToggle();
+        $('#logo-button').fadeToggle();
+      }
+      $('.overlay-toggle').on('click', overlayToggle);
+      $('#splash').on('click', function(e) { e.stopPropagation(); });
+      $('#overlay').on('click', overlayToggle);
+    });
+  </script>
 
   <script>
     window._gaq = [['_setAccount',''],['_trackPageview'],['_trackPageLoadTime']];
