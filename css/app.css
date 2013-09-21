@@ -2,10 +2,20 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  background: #c8c8c8 url(../img/loading.gif) no-repeat center center;
 }
 
 html, body, #map {
   height: 100%;
+}
+
+div.error {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  margin-top: -70px;
+  text-align: center;
 }
 
 .bikeshare-control-slider {

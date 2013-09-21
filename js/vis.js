@@ -58,17 +58,22 @@ Map.prototype.update = function() {
 }
 
 $(function() {
-  var map, render_vis;
+  var map, render_vis, problem;
   map = null;
   render_vis = function(json) {
     map = new Map(json);
-  }
+  };
+  problem = function(error) {
+    $('body').css('background-image', 'none');
+    $('body').append('<div class="error"><h1>Oops...</h1><p>We ran into a problem while retrieving your data. ' + error.statusText + '.</p></div>');
+  };
   $.ajax({
     dataType: "json",
     url: "data/bikeshare-stations.json",
     data: {},
     async: false,
-    success: render_vis
+    success: render_vis,
+    error: problem
   });
 });
 
