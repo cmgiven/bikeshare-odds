@@ -1,80 +1,80 @@
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>        <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>        <html class="no-js ie8 oldie" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>Bikeshare Odds</title>
-  <meta name="description" content="How early must you get to the station to snag a bike?">
+    <title>Bikeshare Odds</title>
+    <meta name="description" content="How early must you get to the station to snag a bike?">
 
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-  <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
-  <!--[if lte IE 8]>
-    <link rel="stylesheet" href="js/libs/leaflet/leaflet.ie.css">
-  <![endif]-->
+    <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="js/libs/leaflet/leaflet.ie.css">
+    <![endif]-->
 
-  <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/app.css">
 
-  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+    <script src="js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
 <body>
 
-  <div id="map"></div>
+    <div id="map"></div>
 
-  <button type="button" id="logo-button" class="overlay-toggle">
-    <img src="img/logo.png" alt="Bikeshare Odds" class="logo" width="65" height="70" />
-  </button>
+    <button type="button" id="logo-button" class="overlay-toggle">
+        <img src="img/logo.png" alt="Bikeshare Odds" class="logo" width="65" height="70" />
+    </button>
 
-  <div id="overlay">
-    <div id="splash">
-      <img src="img/logo.png" alt="" class="logo" />
-      <h1>Bikeshare Odds</h1>
-      <div class="scroller">
-        <p style="text-align: center;">How early must you get to the station to snag a bike?</p>
-      </div>
-      <button type="button" class="overlay-toggle">Get Started</button>
+    <div id="overlay">
+        <div id="splash">
+            <img src="img/logo.png" alt="" class="logo" />
+            <h1>Bikeshare Odds</h1>
+            <div class="scroller">
+                <p style="text-align: center;">How early must you get to the station to snag a bike?</p>
+            </div>
+            <button type="button" class="overlay-toggle">Get Started</button>
+        </div>
+        <a href="https://github.com/cmgiven/bikeshare-odds">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
+        </a>
     </div>
-    <a href="https://github.com/cmgiven/bikeshare-odds">
-      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
-    </a>
-  </div>
 
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
-  <script src="js/libs/leaflet/leaflet.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="js/libs/leaflet/leaflet.js"></script>
 
-  <script src="js/vis.js"></script>
+    <script src="js/vis.js"></script>
 
-  <script>
-    $(function() {
-      function overlayToggle(e) {
-        e.stopPropagation();
-        $('#overlay').fadeToggle();
-        $('#logo-button').fadeToggle();
-      }
-      $('.overlay-toggle').on('click', overlayToggle);
-      $('#splash').on('click', function(e) { e.stopPropagation(); });
-      $('#overlay').on('click', overlayToggle);
-    });
-  </script>
+    <script>
+        $(function() {
+            function overlayToggle(e) {
+                e.stopPropagation();
+                $('#overlay').fadeToggle();
+                $('#logo-button').fadeToggle();
+            }
+            $('.overlay-toggle').on('click', overlayToggle);
+            $('#splash').on('click', function(e) { e.stopPropagation(); });
+            $('#overlay').on('click', overlayToggle);
+        });
+    </script>
 
-  <script>
-    window._gaq = [['_setAccount',''],['_trackPageview'],['_trackPageLoadTime']];
-    Modernizr.load({
-      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-    });
-  </script>
+    <script>
+        window._gaq = [['_setAccount',''],['_trackPageview'],['_trackPageLoadTime']];
+        Modernizr.load({
+            load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+        });
+    </script>
 
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
-  
+    <!--[if lt IE 7 ]>
+        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+        <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+    <![endif]-->
+    
 </body>
 </html>
