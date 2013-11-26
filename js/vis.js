@@ -20,7 +20,7 @@
         // Set the availability value to appear as red 
         this.minimumValue = 0.7;
 
-        this.map = L.map('map', { minZoom: 11, maxZoom: 14 }).setView([38.895111, -77.036667], 12);
+        this.map = L.map('map', { minZoom: 11, maxZoom: 16 }).setView([38.895111, -77.036667], 12);
         L.tileLayer(TILE_URL, {
             maxZoom: 18,
             attribution: ATTRIBUTION
