@@ -9,24 +9,25 @@
         TILE_URL = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/53124/256/{z}/{x}/{y}.png',
         ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>';
 
-    function Map(data) {
-        this.data = data;
+    function Map(availability, stations) {
+        this.data = stations;
+        this.availability = availability;
         this.stations = [];
-        this.startTime = this.data.start_time;
-        this.endTime = this.data.end_time;
-        this.interval = this.data.interval;
-        this.currentTime = this.startTime;
+        this.startTime = 300;
+        this.endTime = 1320;
+        this.interval = 5;
+        this.currentTime = 480;
 
         // Set the availability value to appear as red 
-        this.minimumValue = 0.7;
+        this.minimumValue = 0.8;
 
-        this.map = L.map('map', { minZoom: 11, maxZoom: 16 }).setView([38.895111, -77.036667], 12);
+        this.map = L.map('map', { minZoom: 12, maxZoom: 16 }).setView([38.895111, -77.036667], 12);
         L.tileLayer(TILE_URL, {
             maxZoom: 18,
             attribution: ATTRIBUTION
         }).addTo(this.map);
 
-        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.startTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /></div>',
+        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.currentTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /></div>',
             sliderUpdate = function (e) {
                 var delegate = e.data.delegate;
                 $('#selected-time').html(timeString(this.value));
@@ -46,7 +47,7 @@
             var newStation = L.circleMarker([this.lat, this.long], {
                 radius: 6,
                 fillOpacity: 0.5,
-                availability: this.availability,
+                availability: that.availability[this.id],
                 popupTemplate: '<strong>' + this.name + '</strong><br />Capacity: ' + this.capacity + ' bikes<br />Your Odds: '
             })
                 .addTo(that.map)
@@ -58,7 +59,7 @@
 
     Map.prototype.update = function () {
         var minimumValue = this.minimumValue,
-            index = (this.currentTime - this.startTime) / this.interval;
+            index = ("0" + Math.floor(this.currentTime / 60)).slice(-2) + ":" + ("0" + this.currentTime % 60).slice(-2);
         $.each(this.stations, function () {
             var val = this.options.availability[index],
                 color = getColor(val, minimumValue),
@@ -69,21 +70,17 @@
     };
 
     $(function () {
-        var render_vis = function (json) {
-                var map = new Map(json);
-            },
-            problem = function (error) {
+        $.when(
+            $.ajax('data/availability.json'),
+            $.ajax('data/bikeshare-stations.json'))
+        .done( function (availability, stations) {
+            if (availability[1] === "success" && stations[1] === "success") {
+                var map = new Map(availability[0], stations[0]);
+            } else {
                 $('body').css('background-image', 'none');
                 $('body').append('<div class="error"><h1>Oops...</h1><p>We ran into a problem while retrieving your data. ' + error.statusText + '.</p></div>');
-            };
-        $.ajax({
-            dataType: "json",
-            url: "data/bikeshare-stations.json",
-            data: {},
-            async: false,
-            success: render_vis,
-            error: problem
-        });
+            }
+        } );
     });
 
     // Helper Functions
