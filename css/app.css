@@ -81,6 +81,7 @@ button {
 }
 
 #logo-button {
+    display: none;
     position: absolute;
     bottom: 0; left: 0;
     z-index: 999;
