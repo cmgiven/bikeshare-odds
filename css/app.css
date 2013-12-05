@@ -102,9 +102,9 @@ div.error {
 
 .bikeshare-control-slider {
     clear: none;
-    height: 53px;
     background: #fff;
     padding: 0 9px;
+    width: 315px;
 }
 
 #selected-time {
@@ -114,8 +114,16 @@ div.error {
     width: 94px;
     margin-right: 9px;
     float: left;
+    cursor: pointer;
 }
 
 #time-slider {
     margin-top: 20px;
+    width: 206px;
+}
+
+#advanced {
+    clear: both;
+    padding-bottom: 9px;
+    display: none;
 }

@@ -12,7 +12,6 @@
     function Map(availability, stations) {
         this.data = stations;
         this.availability = availability;
-        this.stations = [];
         this.startTime = 300;
         this.endTime = 1320;
         this.interval = 5;
@@ -27,32 +26,67 @@
             attribution: ATTRIBUTION
         }).addTo(this.map);
 
-        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.currentTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /></div>',
+        this.stations = L.layerGroup().addTo(this.map);
+
+        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.currentTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /><div id="advanced"><button id="animate">Animate</button><select class="data-selector" id="type"><option value="bikes" selected>Bikes</option><option value="spaces">Spaces</option></select><select class="data-selector" id="day"><option value="all">All Days</option><option value="weekday" selected>Weekdays</option><option value="weekend">Weekends</option></select><select class="data-selector" id="season"><option value="all">All Seasons</option><option value="summer">Summer</option><option value="winter">Winter</option><option value="not-winter" selected>Not Winter</option></select></div></div>',
             sliderUpdate = function (e) {
                 var delegate = e.data.delegate;
                 $('#selected-time').html(timeString(this.value));
                 delegate.currentTime = this.value;
                 delegate.update();
+            },
+            that = this,
+            animateFrame = function () {
+                setTimeout(function() {
+                    if (that.animation) { that.animation = requestAnimationFrame(animateFrame); }
+
+                    var $timeSlider = $('#time-slider'),
+                        currentVal = parseInt($timeSlider.val(), 10);
+                    if (currentVal < that.endTime) {
+                        $timeSlider.val(currentVal + that.interval);
+                    } else {
+                        $timeSlider.val(that.startTime);
+                    }
+                    $timeSlider.trigger('change');
+                }, 1000 / 12);
+            },
+            startAnimation = function () {
+                that.animation = requestAnimationFrame(animateFrame);
+            },
+            stopAnimation = function () {
+                that.animation = false;
+            },
+            getNewData = function () {
+                var type = $('#type').children(':selected').attr('value'),
+                    day = $('#day').children(':selected').attr('value'),
+                    season = $('#season').children(':selected').attr('value'),
+                    path = '/data/' + type + '%3Fday%3D' + day + '%26season%3D' + season +'.json';
+                $.ajax(path).done(function (availability) { that.availability = availability; that.add_stations(that.data.stations); });
             };
         $('#map .leaflet-control-container div.leaflet-top.leaflet-left').append(sliderHTML);
-        $('.bikeshare-control-slider').on('mousedown touchstart', function (e) { e.stopPropagation(); });
+        $('#selected-time').on('click', function () { $('#advanced').slideToggle(); });
+        $('#animate').on('click', function () {if (that.animation) { stopAnimation(); } else { startAnimation(); } });
+        $('.bikeshare-control-slider').on('mousedown touchstart click', function (e) { e.stopPropagation(); });
         $('#time-slider').on('change', { delegate: this }, sliderUpdate);
+        $('.data-selector').on('change', function () { getNewData(); });
 
         this.add_stations(this.data.stations);
     }
 
     Map.prototype.add_stations = function (stations) {
         var that = this;
+        this.stations.clearLayers();
         $.each(stations, function () {
-            var newStation = L.circleMarker([this.lat, this.long], {
-                radius: 6,
-                fillOpacity: 0.5,
-                availability: that.availability[this.id],
-                popupTemplate: '<strong>' + this.name + '</strong><br />Capacity: ' + this.capacity + ' bikes<br />Your Odds: '
-            })
-                .addTo(that.map)
-                .bindPopup();
-            that.stations.push(newStation);
+            if (that.availability[this.id]) {
+                var newStation = L.circleMarker([this.lat, this.long], {
+                    radius: 6,
+                    fillOpacity: 0.5,
+                    availability: that.availability[this.id],
+                    popupTemplate: '<strong>' + this.name + '</strong><br />Capacity: ' + this.capacity + ' bikes<br />Your Odds: '
+                })
+                    .addTo(that.stations)
+                    .bindPopup();
+            }
         });
         this.update();
     };
@@ -60,7 +94,7 @@
     Map.prototype.update = function () {
         var minimumValue = this.minimumValue,
             index = ("0" + Math.floor(this.currentTime / 60)).slice(-2) + ":" + ("0" + this.currentTime % 60).slice(-2);
-        $.each(this.stations, function () {
+        $.each(this.stations._layers, function () {
             var val = this.options.availability[index],
                 color = getColor(val, minimumValue),
                 popup = this.options.popupTemplate + Math.round(val * 100) + '%';
@@ -71,11 +105,11 @@
 
     $(function () {
         $.when(
-            $.ajax('data/availability.json'),
-            $.ajax('data/bikeshare-stations.json'))
+            $.ajax('/data/bikes%3Fday%3Dweekday%26season%3Dnot-winter.json'),
+            $.ajax('/data/bikeshare-stations.json'))
         .done( function (availability, stations) {
             if (availability[1] === "success" && stations[1] === "success") {
-                var map = new Map(availability[0], stations[0]);
+                window.map = new Map(availability[0], stations[0]);
             } else {
                 $('body').css('background-image', 'none');
                 $('body').append('<div class="error"><h1>Oops...</h1><p>We ran into a problem while retrieving your data. ' + error.statusText + '.</p></div>');
@@ -132,6 +166,7 @@
             string = '';
         if (hour > 11) { pm = true; }
         if (hour > 12) { hour = hour - 12; }
+        if (hour === 0) { hour = 12; }
         minutes = minutes % 60;
         string = hour + ':' + ("0" + minutes).slice(-2) + (pm ? 'pm' : 'am');
         return string;

@@ -1,7 +1,17 @@
 require 'date'
 require 'json'
 
-availability = Hash.new({})
+class Hash
+  def self.recursive
+    new { |hash, key| hash[key] = recursive }
+  end
+end
+
+observations = Hash.recursive
+odds = Hash.recursive
+
+line_num = 0
+percent_complete = 0
 
 # http://aa.usno.navy.mil/faq/docs/daylight_time.php
 dst = {
@@ -24,24 +34,48 @@ dst = {
 
 File.open('washingtondc.csv').each do |line|
     tfl_id, bikes, spaces, ts = line.split(",")
+
     dt = DateTime.parse(ts)
     dt = dst[dt.year].cover?(dt) ? dt.new_offset(-4.0/24) : dt.new_offset(-5.0/24)
     dt = Time.at((dt.to_time.to_i / 300.0).floor * 300).to_datetime
-    # weekend = dt.wday == 6 || dt.wday == 0
-    unless availability.has_key?(tfl_id)
-        availability[tfl_id] = {}
+
+    day = ['all', dt.wday == 6 || dt.wday == 0 ? 'weekend' : 'weekday']
+
+    season = ['all']
+    if dt.month == 1 || dt.month == 2 || dt.month == 12 then season.push('winter') else season.push('not-winter') end
+    if dt.month == 6 || dt.month == 7 || dt.month == 8 then season.push('summer') end
+
+    hashes = day.product(season).map { |a| 'day=' + a[0] + '&season=' + a[1] }
+
+    hashes.each do |hash|
+        unless observations[hash][tfl_id].has_key?(dt.strftime("%H:%M"))
+            observations[hash][tfl_id][dt.strftime("%H:%M")] = {"obs" => 0, "av_count" => 0, "spaces_count" => 0}
+        end
+
+        observations[hash][tfl_id][dt.strftime("%H:%M")]["obs"] += 1
+        observations[hash][tfl_id][dt.strftime("%H:%M")]["av_count"] += bikes.to_i > 0 ? 1 : 0
+        observations[hash][tfl_id][dt.strftime("%H:%M")]["spaces_count"] += spaces.to_i > 0 ? 1 : 0
     end
-    unless availability[tfl_id].has_key?(dt.strftime("%H:%M"))
-        availability[tfl_id][dt.strftime("%H:%M")] = {"obs" => 0, "av_count" => 0}
+
+    line_num +=1
+    new_percent_complete = ((line_num * 100) / 130491748).floor
+    if new_percent_complete > percent_complete then
+        puts "#{percent_complete}% complete."
+        percent_complete = new_percent_complete
     end
-    availability[tfl_id][dt.strftime("%H:%M")]["obs"] += 1
-    availability[tfl_id][dt.strftime("%H:%M")]["av_count"] += bikes.to_i > 0 ? 1 : 0
 end
 
-availability.each do |tfl_id, times|
-    times.each do |time, counts|
-        availability[tfl_id][time] = (1.0 * counts["av_count"] / counts["obs"]).round(2)
+puts "Finished scanning file."
+
+observations.each do |hash, tfl_ids|
+    tfl_ids.each do |tfl_id, times|
+        times.each do |time, counts|
+            odds['bikes?' + hash][tfl_id][time] = (1.0 * counts["av_count"] / counts["obs"]).round(2)
+            odds['spaces?' + hash][tfl_id][time] = (1.0 * counts["spaces_count"] / counts["obs"]).round(2)
+        end
     end
 end
 
-File.open("availability.json","w") { |f| f.write(availability.to_json) }
+odds.each do |hash, data|
+    File.open(hash + ".json","w") { |f| f.write(data.to_json) }
+end
