@@ -60,7 +60,7 @@
                 var type = $('#type').children(':selected').attr('value'),
                     day = $('#day').children(':selected').attr('value'),
                     season = $('#season').children(':selected').attr('value'),
-                    path = '/data/' + type + '%3Fday%3D' + day + '%26season%3D' + season +'.json';
+                    path = 'data/' + type + '%3Fday%3D' + day + '%26season%3D' + season +'.json';
                 $.ajax(path).done(function (availability) { that.availability = availability; that.add_stations(that.data.stations); });
             };
         $('#map .leaflet-control-container div.leaflet-top.leaflet-left').append(sliderHTML);
@@ -105,8 +105,8 @@
 
     $(function () {
         $.when(
-            $.ajax('/data/bikes%3Fday%3Dweekday%26season%3Dnot-winter.json'),
-            $.ajax('/data/bikeshare-stations.json'))
+            $.ajax('data/bikes%3Fday%3Dweekday%26season%3Dnot-winter.json'),
+            $.ajax('data/bikeshare-stations.json'))
         .done( function (availability, stations) {
             if (availability[1] === "success" && stations[1] === "success") {
                 window.map = new Map(availability[0], stations[0]);
