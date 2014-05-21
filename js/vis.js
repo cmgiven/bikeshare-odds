@@ -6,8 +6,8 @@
     "use strict";
 
     var hsv2rgb, getColor, timeString, // Helper functions, found at the bottom of the file.
-        TILE_URL = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/53124/256/{z}/{x}/{y}.png',
-        ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>';
+        ATTRIBUTION = "Map data &copy;<a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, Imagery &copy;<a href='http://stamen.com'>Stamen</a>",
+        TILE_URL = "http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png";
 
     function Map(availability, stations) {
         this.data = stations;
