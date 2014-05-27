@@ -67,7 +67,7 @@
         $('#selected-time').on('click', function () { $('#advanced').slideToggle(); });
         $('#animate').on('click', function () {if (that.animation) { stopAnimation(); } else { startAnimation(); } });
         $('.bikeshare-control-slider').on('mousedown touchstart click', function (e) { e.stopPropagation(); });
-        $('#time-slider').on('change', { delegate: this }, sliderUpdate);
+        $('#time-slider').on('input change', { delegate: this }, sliderUpdate);
         $('.data-selector').on('change', function () { getNewData(); });
 
         this.add_stations(this.data.stations);
