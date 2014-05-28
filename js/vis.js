@@ -28,7 +28,7 @@
 
         this.stations = L.layerGroup().addTo(this.map);
 
-        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.currentTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /><div id="advanced"><button id="animate">Animate</button><select class="data-selector" id="type"><option value="bikes" selected>Bikes</option><option value="spaces">Spaces</option></select><select class="data-selector" id="day"><option value="all">All Days</option><option value="weekday" selected>Weekdays</option><option value="weekend">Weekends</option></select><select class="data-selector" id="season"><option value="all">All Seasons</option><option value="summer">Summer</option><option value="winter">Winter</option><option value="not-winter" selected>Not Winter</option></select></div></div>',
+        var sliderHTML = '<div class="bikeshare-control-slider leaflet-bar leaflet-control"><div id="selected-time">' + timeString(this.currentTime) + '</div><input id="time-slider" type="range" min="' + this.startTime + '" max="' + this.endTime + '" step="' + this.interval + '" value="' + this.currentTime + '" /><button id="toggle-advanced">Options</button><div id="advanced"><button id="animate">Animate</button><select class="data-selector" id="type"><option value="bikes" selected>Bikes</option><option value="spaces">Spaces</option></select><select class="data-selector" id="day"><option value="all">All Days</option><option value="weekday" selected>Weekdays</option><option value="weekend">Weekends</option></select><select class="data-selector" id="season"><option value="all">All Seasons</option><option value="summer">Summer</option><option value="winter">Winter</option><option value="not-winter" selected>Not Winter</option></select></div></div>',
             sliderUpdate = function (e) {
                 var delegate = e.data.delegate;
                 $('#selected-time').html(timeString(this.value));
@@ -64,7 +64,7 @@
                 $.ajax(path).done(function (availability) { that.availability = availability; that.add_stations(that.data.stations); });
             };
         $('#map .leaflet-control-container div.leaflet-top.leaflet-left').append(sliderHTML);
-        $('#selected-time').on('click', function () { $('#advanced').slideToggle(); });
+        $('#toggle-advanced').on('click', function () { $('#advanced').slideToggle(); });
         $('#animate').on('click', function () {if (that.animation) { stopAnimation(); } else { startAnimation(); } });
         $('.bikeshare-control-slider').on('mousedown touchstart click', function (e) { e.stopPropagation(); });
         $('#time-slider').on('input change', { delegate: this }, sliderUpdate);

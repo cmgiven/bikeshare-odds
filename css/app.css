@@ -104,7 +104,7 @@ div.error {
     clear: none;
     background: #fff;
     padding: 0 9px;
-    width: 315px;
+    width: 320px;
 }
 
 #selected-time {
@@ -114,13 +114,20 @@ div.error {
     width: 94px;
     margin-right: 9px;
     float: left;
-    cursor: pointer;
 }
 
 #time-slider {
     margin-top: 20px;
     width: 206px;
 }
+
+#toggle-advanced {
+    float: right;
+    background: none;
+    color: #a72726;
+}
+
+#toggle-advanced:hover { text-decoration: underline; }
 
 #advanced {
     clear: both;
