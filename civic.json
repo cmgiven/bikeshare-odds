@@ -1,0 +1,27 @@
+{
+    "conformsTo": "https://github.com/codefordc/guides/blob/master/using-civic.json/specification.md",
+    "status": "Complete (in need of data updates)",
+    "contact": {
+        "name": "Chris Given",
+        "email": "cmgiven@gmail.com",
+        "twitter": "@cmgiven"
+    },
+    "bornAt": "Code for DC",
+    "geography": "Washington, DC",
+    "communityPartner": {
+        "Data Science for Social Good": "http://dssg.io"
+    },
+    "type": "Web app",
+    "data": {
+        "Capital Bikeshare Dock History": "http://opendatadc.org/dataset/capital-bikeshare-dock-history"
+    },
+    "needs": [
+        "Data updates",
+        "Improved usability on mobile devices"
+    ],
+    "categories": [
+        "Transportation",
+        "Cycling",
+        "Bikeshare"
+    ]
+}
