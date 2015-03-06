@@ -1,6 +1,6 @@
 {
-    "conformsTo": "https://github.com/codefordc/guides/blob/master/using-civic.json/specification.md",
-    "status": "Complete (in need of data updates)",
+    "conformsTo": "http://codefordc.org/resources/specification.html",
+    "status": "Archival",
     "contact": {
         "name": "Chris Given",
         "email": "cmgiven@gmail.com",
@@ -16,12 +16,12 @@
         "Capital Bikeshare Dock History": "http://opendatadc.org/dataset/capital-bikeshare-dock-history"
     },
     "needs": [
-        "Data updates",
-        "Improved usability on mobile devices"
+        {"need":"Data updates"},
+        {"need":"Improved usability on mobile devices"}
     ],
     "categories": [
-        "Transportation",
-        "Cycling",
-        "Bikeshare"
+        {"category":"Transportation"},
+        {"category":"Cycling"},
+        {"category":"Bikeshare"}
     ]
 }
