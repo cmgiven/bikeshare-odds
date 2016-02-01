@@ -1,27 +1,44 @@
 {
-    "conformsTo": "http://codefordc.org/resources/specification.html",
-    "status": "Archival",
+    "name": "CaBi Odds", 
+    "description": "Leaflet map of DC bikeshare stations and average availability.", 
+    "license": "CC0-1.0", 
+    "status": "Archival", 
+    "type": "Web app", 
+    "homepage": "http://cmgiven.github.io/bikeshare-odds/", 
+    "repository": "https://github.com/cmgiven/bikeshare-odds", 
+    "thumbnail": "", 
+    "geography": [
+        "Washington, DC"
+    ], 
     "contact": {
-        "name": "Chris Given",
-        "email": "cmgiven@gmail.com",
-        "twitter": "@cmgiven"
-    },
-    "bornAt": "Code for DC",
-    "geography": "Washington, DC",
-    "communityPartner": {
-        "Data Science for Social Good": "http://dssg.io"
-    },
-    "type": "Web app",
-    "data": {
-        "Capital Bikeshare Dock History": "http://opendatadc.org/dataset/capital-bikeshare-dock-history"
-    },
-    "needs": [
-        {"need":"Data updates"},
-        {"need":"Improved usability on mobile devices"}
-    ],
-    "categories": [
-        {"category":"Transportation"},
-        {"category":"Cycling"},
-        {"category":"Bikeshare"}
-    ]
+        "name": "Chris Given", 
+        "email": "cmgiven@gmail.com", 
+        "url": "https://twitter.com/@cmgiven"
+    }, 
+    "partners": [
+        {
+            "url": "http://dssg.io", 
+            "name": "Data Science for Social Good", 
+            "email": ""
+        }, 
+        {
+            "url": "http://codefordc.org", 
+            "name": "Code for DC", 
+            "email": ""
+        }
+    ], 
+    "data": [
+        {
+            "url": "http://opendatadc.org/dataset/capital-bikeshare-dock-history", 
+            "name": "Capital Bikeshare Dock History", 
+            "metadata": ""
+        }
+    ], 
+    "tags": [
+        "Transportation", 
+        "Cycling", 
+        "Bikeshare"
+    ], 
+    "links": [], 
+    "id": "https://raw.githubusercontent.com/DCgov/civic.json/master/schemas/schema-v1.json"
 }
